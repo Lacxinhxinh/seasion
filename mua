@@ -1,0 +1,135 @@
+package seasion;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.print.attribute.standard.RequestingUserName;
+
+public class seasion {
+	private String name;
+	private String temperature;
+	private String weather;
+	//get,set
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getTemperature() {
+		return temperature;
+	}
+	public void setTemperature(String temperature) {
+		this.temperature = temperature;
+	}
+	public String getWeather() {
+		return weather;
+	}
+	public void setWeather(String weather) {
+		this.weather = weather;
+	}
+	//setall
+	public void setall(String name,String  temperature,String weather) {
+		this.name=name;
+		this.temperature=temperature;
+		this.weather=weather;
+	}
+	//constructor
+	public seasion() {}
+	public seasion(String name,String temperature,String weather) {
+		this.name=name;
+		this.temperature=temperature;
+		this.weather=weather;
+	}
+	//nhap
+	public void input() {
+		Scanner sc= new Scanner(System.in);
+		System.out.println("Name: ");
+		name=sc.nextLine();
+		System.out.println("Temperature: ");
+		temperature=sc.nextLine();
+		System.out.println("Weather: ");
+		weather=sc.nextLine();
+	}
+	//hienthi
+	public void display() {
+		System.out.println("Name: "+getName());
+		System.out.println("Temperature: "+getTemperature());
+		System.out.println("Weather: "+getWeather());
+	}
+	//hien thi file
+	public static  ArrayList<seasion> intputfile() {
+		ArrayList<seasion> list= new ArrayList<seasion>();
+		try {
+			FileReader fr= new FileReader("D:\\seasion.txt");
+			BufferedReader br = new BufferedReader(fr);
+		while(true) {
+			String st= br.readLine();
+			if(st==null||st=="") break;
+			
+			String[] dt= st.split("[;]");
+			list.add(new seasion(dt[0],dt[1],dt[2]));
+		}
+			br.close();
+			fr.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	//nhap vao file
+	
+	public static void outputfile(ArrayList<seasion> list) {
+		try {
+			FileWriter fw = new FileWriter("D:\\mua.txt");
+			BufferedWriter bw = new BufferedWriter(fw);
+			
+				for(seasion ss:list) {
+					String st= ss.getName()+";"+ss.getTemperature()+";"+ss.getWeather();
+					bw.write(st);
+					bw.newLine();
+				}
+			
+			bw.close();
+			fw.close();
+		} catch (Exception e) {	
+			e.printStackTrace();
+		}
+	}
+	
+	//hien thi de chon
+	
+	public void display_seasion() {
+		ArrayList<seasion> list = new ArrayList<seasion>();
+		Scanner sc= new Scanner(System.in);
+		System.out.println("Nhan 1 de outputfile !! Nhan 2 de inputfile !! Nhan 3 de thoat");
+		int n=sc.nextInt();
+		while(true) {
+			switch(n) {
+			case 1: outputfile(list);
+					break;
+			case 2: list=intputfile();
+					break;
+			case 3: System.out.println("cutttttttttttttttttt");
+					System.exit(0);
+					break;
+					
+			default: System.out.println("Nhap sai con me may");
+					n=sc.nextInt();
+			
+				
+			}
+		}
+	}
+	public static void main(String[] args) {
+		seasion ss= new seasion();
+		ss.display_seasion();
+	}
+
+	
+	
+}
